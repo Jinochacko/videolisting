@@ -9,21 +9,32 @@
     <link href="css/main.css" rel="stylesheet">
 </head>
 
-<body ng-app="VideoListingApp" ng-controller="VideoListingController">
-    <header class="sticky-top col-md-12 float-left">
+<body ng-app="VideoListingApp" ng-controller="VideoListingController"">
+    <header class="sticky-top col-md-12 float-left" ng-class="{'blur': showSearch}">
         <div class="col-md-12 float-left">
             <img class="float-left" ng-src="{{backArrow}}" />
             <span class="float-left">Romantic Comedy</span>
-            <img class="float-right" ng-src="{{searchIcon}}" />
+            <img class="float-right" ng-src="{{searchIcon}}" ng-click="showSearch=true;searchInput='';searchList=[];" />
         </div>
     </header>
-    <section class="col-md-12 float-left main-content" when-scroll-ends="getVideoList()">
+    <section class="col-md-12 float-left main-content" when-scroll-ends="getVideoList()" ng-class="{'blur': showSearch}">
         <div ng-repeat="video in videos track by $index" class="col-md-4 float-left video-wrap animated slideInUp">
             <img ng-src="images/{{video['poster-image']}}" onError="this.src='images/placeholder_for_missing_posters.png'" class="col-md-12 no-padding">
             <span class="col-md-12 no-padding float-left">{{video.name}}</span>
         </div>
     </section>
-
+    <aside ng-class="{true: 'slideInRight', false: ''}[showSearch]" class="search-container col-md-12 animated" ng-show="showSearch">
+        <div class="float-left search-header col-md-12">
+            <input type="text" ng-model="searchInput" ng-keyup="doSearch();" placeholder="Search videos here" class="float-left col-md-8">
+            <span class="col-md-4 float-left text-center" ng-click="showSearch=false;">Cancel</span>
+        </div>  
+        <div class="float-left col-md-12 search-results">
+            <div ng-repeat="searchItem in searchList track by $index" class="col-md-12 float-left animated slideInUp search-item">
+                <img ng-src="images/{{searchItem['poster-image']}}" onError="this.src='images/placeholder_for_missing_posters.png'" class="col-md-1 no-padding float-left">
+                <span class="col-md-11 no-padding float-left">{{searchItem.name}}</span>
+            </div>
+        </div>
+    </aside>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 </body>

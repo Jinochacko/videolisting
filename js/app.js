@@ -3,25 +3,35 @@ var appModule = angular.module('VideoListingApp', []);
 appModule.constant('backArrow', 'images/Back.png');
 appModule.constant('searchIcon', 'images/search.png');
 
-appModule.controller('VideoListingController', function($scope, backArrow, searchIcon, $http, $timeout) {
+appModule.controller('VideoListingController', function($scope, backArrow, searchIcon, $http, $timeout, $filter) {
 
     $scope.fileNum = 1;
-    $scope.totalPages = 4;
+    $scope.totalPages = 3;
     $scope.searchIcon = searchIcon;
     $scope.backArrow = backArrow;
     $scope.videos = [];
     $scope.isLoading = false;
+    $scope.showSearch = false;
+
+    $scope.doSearch = function(){
+      $http.get("json/CONTENTLISTINGPAGE-PAGE1.json")
+            .then(function(response) {
+              $scope.searchResults = response.data.page['content-items'].content;
+              $scope.searchList = $filter('filter')($scope.searchResults, {name: $scope.searchInput});
+        // console.log($scope.searchList);
+        });
+    };
 
     $scope.getVideoList = function(){
-        if($scope.fileNum < $scope.totalPages && !$scope.isLoading){
+        if($scope.fileNum <= $scope.totalPages && !$scope.isLoading){
             $scope.isLoading = true;
             $http.get("json/CONTENTLISTINGPAGE-PAGE"+$scope.fileNum+".json")
             .then(function(response) {
-                $scope.items = response.data.page;
+                $scope.items = response.data.page['content-items'].content;
                 if($scope.fileNum == 1){
-                    $scope.videos = $scope.items['content-items'].content;
+                    $scope.videos = $scope.items;
                 } else {
-                    angular.forEach($scope.items['content-items'].content, function(item){
+                    angular.forEach($scope.items, function(item){
                         $scope.videos.push(item);
                     });
                     
@@ -55,7 +65,7 @@ appModule.directive('whenScrollEnds', function($window,$timeout) {
                 scope.$apply(attr.whenScrollEnds);
 
                 // increment the threshold
-                height += (origHeight * 1.5);
+                // height += (origHeight * 1.5);
               })
             }
           });
