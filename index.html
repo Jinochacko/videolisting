@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="utf-8">
+    <title>Video Listing And Search</title>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+
+<body ng-app="VideoListingApp" ng-controller="VideoListingController">
+    <header class="sticky-top col-md-12 float-left">
+        <div class="col-md-12 float-left">
+            <img class="float-left" ng-src="{{backArrow}}" />
+            <span class="float-left">Romantic Comedy</span>
+            <img class="float-right" ng-src="{{searchIcon}}" />
+        </div>
+    </header>
+    <section class="col-md-12 float-left main-content" when-scroll-ends="getVideoList()">
+        <div ng-repeat="video in videos track by $index" class="col-md-4 float-left video-wrap animated slideInUp">
+            <img ng-src="images/{{video['poster-image']}}" onError="this.src='images/placeholder_for_missing_posters.png'" class="col-md-12 no-padding">
+            <span class="col-md-12 no-padding float-left">{{video.name}}</span>
+        </div>
+    </section>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+</body>

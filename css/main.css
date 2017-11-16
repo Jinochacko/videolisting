@@ -1,0 +1,25 @@
+body {background-color: #000000;color: #ffffff;font-family: 'Titillium Web', sans-serif;}
+header {font-weight: 400;font-size: 45pt;background: url('../images/nav_bar.png') no-repeat;background-size: 100% 100%;padding: 51px 0;position: fixed !important;}
+header img {margin-top: 20px;}
+header img:first-child {margin-right: 20px;}
+.no-padding {padding: 0;}
+.main-content {margin-top: 228px;}
+.video-wrap span {margin: 24px 0 90px;font-size: 28pt;font-weight: 300;}
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInUp {
+  animation-name: slideInUp;
+}
