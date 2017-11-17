@@ -20,7 +20,9 @@
     <section class="col-md-12 float-left main-content" when-scroll-ends="getVideoList()" ng-class="{'blur': showSearch}">
         <div ng-repeat="video in videos track by $index" class="col-md-4 float-left video-wrap animated slideInUp">
             <img ng-src="images/{{video['poster-image']}}" onError="this.src='images/placeholder_for_missing_posters.png'" class="col-md-12 no-padding">
-            <span class="col-md-12 no-padding float-left">{{video.name}}</span>
+            <div class="no-padding col-md-12 video-name-wrap">
+                <span class="col-md-12 no-padding">{{video.name}}</span>
+            </div>
         </div>
     </section>
     <aside ng-class="{true: 'slideInRight', false: ''}[showSearch]" class="search-container col-md-12 animated" ng-show="showSearch">
