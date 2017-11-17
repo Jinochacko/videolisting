@@ -6,27 +6,47 @@ appModule.constant('searchIcon', 'images/search.png');
 appModule.controller('VideoListingController', function($scope, backArrow, searchIcon, $http, $timeout, $filter) {
 
     $scope.fileNum = 1;
-    $scope.totalPages = 3;
+    $scope.searchFileNum = 1;
+    $scope.currentItems = 0;
+    $scope.currentSearchItems = 0;
+    $scope.totalItems = 1;
     $scope.searchIcon = searchIcon;
     $scope.backArrow = backArrow;
     $scope.videos = [];
     $scope.isLoading = false;
     $scope.showSearch = false;
+    $scope.searchResults = [];
+    $scope.searchMessage = "Search videos here...";
 
     $scope.doSearch = function(){
-      $http.get("json/CONTENTLISTINGPAGE-PAGE1.json")
+      if($scope.currentSearchItems < $scope.totalItems){
+        $http.get("json/CONTENTLISTINGPAGE-PAGE"+$scope.searchFileNum+".json")
             .then(function(response) {
-              $scope.searchResults = response.data.page['content-items'].content;
-              $scope.searchList = $filter('filter')($scope.searchResults, {name: $scope.searchInput});
-        // console.log($scope.searchList);
+                angular.forEach(response.data.page['content-items'].content, function(item){
+                    $scope.searchResults.push(item);
+                });
+                $scope.currentSearchItems += response.data.page['content-items'].content.length;
+                $scope.searchFileNum++;
+                $scope.doSearch();
         });
+      } else {
+        $scope.searchList = $filter('filter')($scope.searchResults, {name: $scope.searchInput});
+        if($scope.searchList == 0){
+            $scope.searchMessage = "No results found";
+        }
+      }
+      if($scope.searchInput == ''){
+          $scope.searchList = [];
+          $scope.searchMessage = "Search videos here...";
+      }
     };
 
     $scope.getVideoList = function(){
-        if($scope.fileNum <= $scope.totalPages && !$scope.isLoading){
+        if($scope.currentItems < $scope.totalItems && !$scope.isLoading){
             $scope.isLoading = true;
             $http.get("json/CONTENTLISTINGPAGE-PAGE"+$scope.fileNum+".json")
             .then(function(response) {
+                $scope.totalItems = response.data.page['total-content-items'];
                 $scope.items = response.data.page['content-items'].content;
                 if($scope.fileNum == 1){
                     $scope.videos = $scope.items;
@@ -34,8 +54,8 @@ appModule.controller('VideoListingController', function($scope, backArrow, searc
                     angular.forEach($scope.items, function(item){
                         $scope.videos.push(item);
                     });
-                    
                 }
+                $scope.currentItems += $scope.items.length;
                 $scope.fileNum++;
                 $scope.isLoading = false;
             });
@@ -52,20 +72,10 @@ appModule.directive('whenScrollEnds', function($window,$timeout) {
           var origHeight = angular.element($window)[0].screen.height;
           var height = (origHeight * 0.9);
 
-          // bind the digest cycle to be triggered by the scroll event
-          // when it exceeds a threshold
           angular.element($window).bind('scroll', function() {
-            if (angular.element($window)[0].scrollY >= (height)) {
-
-              // show the spinner when triggered
-              // scope.spinner.hide = !scope.spinner.hide;
-
+            if(angular.element($window)[0].scrollY >= (height)) {
               angular.element($window)[0].requestAnimationFrame(function(){
-                // invoke the function passed into the 'whenScrolled' attribute
                 scope.$apply(attr.whenScrollEnds);
-
-                // increment the threshold
-                // height += (origHeight * 1.5);
               })
             }
           });

@@ -11,13 +11,14 @@ header img:first-child {margin-right: 20px;}
   animation-fill-mode: both;
 }
 .search-container {position: fixed;top: 0;left: 0;z-index: 1500;height: 100%;background:rgba(0,0,0,.8);}
-.search-header {height: 10vh;font-size: 24pt;padding-top: 40px;z-index: 1;}
+.search-header {min-height: 10vh;font-size: 24pt;padding-top: 40px;padding-bottom: 20px;z-index: 1;}
 .search-header input {border: 2px solid rgba(255,255,255,.6);border-radius: 15px;padding: 15px;background: #000;outline: none;color: #ffffff;}
 .search-header span {margin-top: 15px;}
-.search-results {height: 90vh;overflow-y: auto;}
+.search-results {max-height: 90vh;overflow-y: auto;}
 .search-item {margin: 10px 0 ;border: 2px solid rgba(255,255,255,.6);background-color: #000;}
 .search-item img {margin: 15px 0;}
 .search-item span {padding-left: 30px;font-size: 28px;margin-top: 10px;}
+.no-result {margin-top: 50px;font-size: 28pt;color: rgba(255,255,255,.6);}
 @keyframes slideInUp {
   from {
     transform: translate3d(0, 100%, 0);
