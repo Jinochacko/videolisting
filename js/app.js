@@ -68,15 +68,14 @@ appModule.directive('whenScrollEnds', function($window,$timeout) {
     return {
         restrict: "A",
         link: function(scope, element, attr) {
-          var top = angular.element($window)[0].screenTop;
-          var origHeight = angular.element($window)[0].screen.height;
-          var height = (origHeight * 0.9);
 
           angular.element($window).bind('scroll', function() {
-            if(angular.element($window)[0].scrollY >= (height)) {
-              angular.element($window)[0].requestAnimationFrame(function(){
+            var top = angular.element($window)[0].innerHeight;//angular.element($window)[0].screenTop;
+            var origHeight = document.getElementById('videos').clientHeight;//angular.element($window)[0].innerHeight;
+            var height = (origHeight * 0.9);
+            console.log(origHeight+'-----'+height+'---'+(angular.element($window)[0].scrollY + top));
+            if((angular.element($window)[0].scrollY + top) >= (height)) {
                 scope.$apply(attr.whenScrollEnds);
-              })
             }
           });
         }

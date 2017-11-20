@@ -20,6 +20,21 @@ header img:first-child {margin-right: 20px;}
 .search-item span {padding-left: 30px;font-size: 28px;margin-top: 10px;}
 .no-result {margin-top: 50px;font-size: 28pt;color: rgba(255,255,255,.6);}
 .video-name-wrap {height: 150px;}
+@media (max-width: 680px){
+  header {font-size: 32pt;}
+  header img {width: 35px;margin-top: 15px;}
+}
+@media (max-width: 480px){
+  header {font-size: 22pt;}
+  header img {width: 25px;margin-top: 10px;}
+  .video-wrap span {font-size: 18pt;}
+  .video-name-wrap {height: auto;}
+}
+@media (max-width: 360px){
+  header {font-size: 18pt;}
+  header img {width: 20px;margin-top: 8px;}
+  .video-wrap span {font-size: 16pt;margin-bottom: 24px;}
+}
 @keyframes slideInUp {
   from {
     transform: translate3d(0, 100%, 0);
