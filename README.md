@@ -1,2 +1,2 @@
 # videolisting
-A listing angular web app with lazy loading and search features which reads data from json files
+An angular web app for listing with lazy loading and search features which reads data from json files
